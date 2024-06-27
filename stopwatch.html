@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Stopwatch</title>
+    <style>
+        .stopwatch {
+            font-size: 2em;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            font-size: 1em;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stopwatch">
+        <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>:<span
+            id="milliseconds">00</span>
+    </div>
+    <div class="buttons">
+        <button onclick="startStopwatch()">Start</button>
+        <button onclick="stopStopwatch()">Stop</button>
+        <button onclick="resetStopwatch()">Reset</button>
+    </div>
+
+    <script>
+        let startTime, updatedTime, difference, intervalId;
+        let running = false;
+
+        function startStopwatch() {
+            if (!running) {
+                startTime = new Date().getTime() - (difference || 0);
+                intervalId = setInterval(updateDisplay, 10); // Update every 10 milliseconds
+                running = true;
+            }
+        }
+
+        function stopStopwatch() {
+            if (running) {
+                clearInterval(intervalId);
+                running = false;
+            }
+        }
+
+        function resetStopwatch() {
+            clearInterval(intervalId);
+            running = false;
+            difference = 0;
+            document.getElementById('hours').textContent = "00";
+            document.getElementById('minutes').textContent = "00";
+            document.getElementById('seconds').textContent = "00";
+            document.getElementById('milliseconds').textContent = "00";
+        }
+
+        function updateDisplay() {
+            updatedTime = new Date().getTime();
+            difference = updatedTime - startTime;
+            let hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));//total ms in a day
+            let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((difference % (1000 * 60)) / 1000);//3000ms mod 6000=3000 and 3000/1000=3sec
+            let milliseconds = Math.floor((difference % 1000) / 10);
+
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
+            milliseconds = (milliseconds < 10) ? "0" + milliseconds : milliseconds;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+            document.getElementById('milliseconds').textContent = milliseconds;
+        }
+    </script>
+</body>
+
+</html>
