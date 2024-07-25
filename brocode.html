@@ -290,9 +290,9 @@
         [a, b] = [b, a]
         console.log(a, b)
 
-        const colr = ["red", "green", "blue"]
-        //[colr[0], colr[2]] = [colr[2], colr[0]] not working dkw
-        console.log(colr)
+        const colr = ["red", "green", "blue"];
+        [colr[0], colr[2]] = [colr[2], colr[0]];
+        console.log(colr);
         console.log(colr.sort())
         const [first, second, third] = colr
         console.log(second)
@@ -336,7 +336,7 @@
         console.log(maxV)
         vegt.sort((a, b) => a.cal - b.cal)
         console.log(vegt)
-        //veg.sort((a,b)=>a.name.localeCompare(b.name)) not working dkw
+        vegt.sort((a, b) => a.name.localeCompare(b.name))
         console.log(vegt)
     </script>
 
@@ -349,16 +349,19 @@
 
     <p>Shufle Array FisherVatesAlgo</p>
     <script>
-        const card = ['A', 2, 3, 4, 'Q', 'K']
         //card.sort(()=>Math.random()-0.5)//inefficent
+        const card = ['A', 2, 3, 4, 'Q', 'K'];
+
         const shuffle = (array) => {
             for (let i = array.length - 1; i > 0; i--) {
-                const randm = Math.floor(Math.random() * (i + 1))
-                //[array[i],array[randm]] = [array[randm], array[i]]
+                const randm = Math.floor(Math.random() * (i + 1));
+                [array[i], array[randm]] = [array[randm], array[i]];
             }
-        }
-        shuffle(card)
-        console.log(card)
+        };
+
+        shuffle(card);
+        console.log(card);
+
     </script>
 
     <p>Date Object yy,mm,dd,hh,mm,ss,ms</p>
@@ -563,11 +566,10 @@
 
         chores()
     </script>
-    <p>Async Await</p>
+    <p>Cookies</p>
     <script>
-        //async makes a function to return a promise, await wait for a promise, async doesnt have reject resolve
-
-    </script>
-</body>
+            //async makes a function to return a promise, await wait for a promise, async doesnt have reject resolve
+            //cookies saves usr data at usr computer but session saves in server
+            </script>
 
 </html>

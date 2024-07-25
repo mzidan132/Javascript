@@ -440,7 +440,7 @@
         myBox.addEventListener('click', event => event.target.style.backgroundColor = 'tomato')
         myBox.addEventListener('mouseover', event => event.target.textContent = 'hello')
         myBox.addEventListener('mouseout', event => event.target.textContent = 'click me')
-        myButton.addEventListener('click', event => myBox.target.textContent = 'you clicked button')//not working dkw 
+        myButton.addEventListener('click', event => myBox.textContent = 'you clicked button')
     </script>
 
     <p>Keydown, Keyup</p>
@@ -476,7 +476,7 @@
         const mytxt = document.getElementById('mytxt')
 
         btn.addEventListener('click', event => {
-            if (mytxt.style.visibility === 'hideen') {
+            if (mytxt.style.visibility === 'hidden') {
                 mytxt.style.visibility = 'visible'
                 btn.textContent = 'hide'
             } //display none and display block for pushing the button to take the space when it disappears
