@@ -1,56 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h1 style="text-align: center;">JS Projects</h1>
     <label for="convert">Input Number</label>
     <input type="number" id="convert" name="convert"><br>
     <div><button id="btn">Cels to Kelv</button>&nbsp;
         <button id="btn2">Cels to Farn</button>
+        <button id="btn3">Farn to Cels</button>
     </div>
-    <p id = "result"></p>
-    <div id = "clock-container">
+    <p id="result"></p>
+    <div id="clock-container">
         <div id="clock">
             00:00:00
         </div>
     </div>
     <script>
-        
-        document.getElementById("btn").addEventListener("click",cels_to_kelv);
-        document.getElementById("btn2").addEventListener("click",cels_to_farn);
 
-        function cels_to_kelv(){
-            const num = document.getElementById("convert").textContent;
-            const op = parseFloat(num)+273.0;
-            document.getElementById("result").innerHTML= `Celcius to Kelvin is: ${op}`;
+        document.getElementById("btn").addEventListener("click", cels_to_kelv);
+        document.getElementById("btn2").addEventListener("click", cels_to_farn);
+        document.getElementById('btn3').onclick = () => {
+
+            const num = document.getElementById("convert").value;
+            const op = (5 / 9) * (num - 32.0);
+            document.getElementById("result").textContent = `Farhenheit to Celcius is: ${op}`;
         }
 
-        function cels_to_farn(){
+        function cels_to_kelv() {
+            const num = document.getElementById("convert").value; // textContent for non form tags
+            const op = parseFloat(num) + 273.0;
+            document.getElementById("result").textContent = `Celcius to Kelvin is: ${op}`;
+        }
+
+        function cels_to_farn() {
             const num = document.getElementById("convert").value;
-            const op = (9/5)*parseFloat(num)+32;
-            document.getElementById("result").innerHTML= `Celcius to Farhenheit is: ${op}`;
+            const op = (9 / 5) * parseFloat(num) + 32;
+            document.getElementById("result").innerHTML = `Celcius to Farhenheit is: ${op}`;
         }
     </script>
     <script>
-        function updateClock(){
+        function updateClock() {
             const d = new Date();
-            let hours = d.getHours().toString().padStart(2,0); //for first 2 chars pad them with 0
+            let hours = d.getHours().toString().padStart(2, 0); //for first 2 chars pad them with 0
             const meridiem = hours >= 12 ? "PM" : "AM";
-            if(hours>12){
-                hours-=12;
+            if (hours > 12) {
+                hours -= 12;
             }
-            let min = d.getMinutes().toString().padStart(2,0);
-            let sec = d.getSeconds().toString().padStart(2,0);
+            let min = d.getMinutes().toString().padStart(2, 0);
+            let sec = d.getSeconds().toString().padStart(2, 0);
             const times = `${hours}:${min}:${sec} ${meridiem}`;
             document.getElementById("clock").textContent = times;
         }
         updateClock();
-        setInterval(updateClock,1000);//call a function repeatedly in 1s
+        setInterval(updateClock, 1000);//call a function repeatedly in 1s
     </script>
-    
+
 </body>
+
 </html>

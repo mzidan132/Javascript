@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p id="myinp">Input</p>
+    <input id="mytext">
+    <button id="mysubmit">submit</button>
+    <script>
+        //let usrnm = window.prompt('Whats ur name?')
+        document.getElementById("mysubmit").onclick = function () {
+            let usrnm = document.getElementById('mytext').value //Number(usrnm)
+            document.getElementById('myinp').textContent = `Hello ${usrnm}`
+        }
+    </script>
+
+    <p id="count">Counter</p>
+    <button id="inc">Increment</button>
+    <button id="dec">Decrement</button>
+    <script>
+        let count = 0
+
+        document.getElementById("inc").onclick = () => {
+            count++
+            document.getElementById("count").textContent = count
+        }
+
+        document.getElementById("dec").onclick = () => {
+            if (count > 0)
+                count--
+            document.getElementById("count").textContent = count
+        }
+    </script>
+
+    <p>String Methods</p>
+    <script>
+        let usrnm = ' brocode'
+        console.log(usrnm.charAt(2)) //o
+        console.log(usrnm.indexOf('b')) //0
+        console.log(usrnm.lastIndexOf('o')) //4
+        console.log(usrnm.length)
+        console.log(usrnm)
+        console.log(usrnm.trim()) //remove whitespace
+        console.log(usrnm.toUpperCase())
+        console.log(usrnm.repeat(2))
+        let result = usrnm.startsWith(" ")
+        console.log(result) //bool
+        if (result)
+            console.log('you have whitespace at beginning')
+        let includ = usrnm.includes("p")
+        console.log(includ)
+        let phone = "123-212-123"
+        console.log(phone.replaceAll("-", ""))
+        console.log(phone.padStart(15, "0")) //fill with 0 at start unless its 15 char long
+        let fullnam = "bro code"
+        let fname = fullnam.slice(0, fullnam.indexOf(" "))
+        let lname = fullnam.slice(4, 8) //only 4 also works
+        console.log(fname, lname)
+        console.log(usrnm.trim().toLocaleUpperCase() + usrnm.slice(4)) //method chaining
+    </script>
+
+    <p>Strict Equality</p>
+    <script>
+        // === compare if value and datatypes are eqaul
+        const pi = 3.14
+        if (pi == "3.14")
+            console.log('true')
+        if (pi === "3.14")
+            console.log(true)
+        else
+            console.log(false)
+    </script>
+
+    <p id="result">Checked?</p>
+    <input type="checkbox" id="mycbox">
+    <label for="mcbox">subscribe</label><br>
+
+    <input type="radio" id="visa" name="card">
+    <label for="visa">Visa</label><br>
+    <input type="radio" id="paypal" name="card">
+    <label for="paypal">Paypal</label><br>
+    <button type="submit" id="submit">Submit</button>
+
+    <script>
+        const mychbox = document.getElementById('mycbox')
+        const visa = document.getElementById('visa')
+        const paypal = document.getElementById('paypal')
+        const submit = document.getElementById('submit')
+        const results = document.getElementById('result')
+
+        submit.onclick = () => {
+            if (mychbox.checked)
+                results.textContent = `you are subscribed`
+            else if (visa.checked)
+                results.textContent = 'you chose visa'
+        }
+    </script>
+
+    <p>Variable Scope Local vs Global</p>
+    <script>
+        let x = 1
+        const f2 = () => {
+            let y = 4 // local scope
+        }
+        //let x = 2 cant use it both global scope
+        const f1 = () => {
+            let x = 2;
+            console.log(x)
+            //console.log(y) //error for both local scope access
+        }
+        f1()
+    </script>
+
+    <p>Spread and Rest operator</p>
+    <script>
+        //allow iterable arry string to expand in separate element or unpack
+        let num = [1, 2, 3]
+        let max = Math.max(...num)
+        console.log(max)
+        let nam = 'zidan'
+        let letter = [...nam].join('.')
+        console.log(letter)
+        let fruit = ['aple', 'banana']
+        let newFruit = [...fruit, ...nam, "eggs"] //combine array
+        console.log(newFruit)
+        // rest bundles separate element into an array
+        // spread expands an array into separate element
+        const food1 = 'pizza'
+        const food2 = 'pasta'
+        const fridge = (...foods) => {
+            console.log(foods)
+            console.log(...foods) //spread
+        }
+        fridge(food1, food2)
+
+        const sum = (...nums) => {
+            let sum = 0
+            for (let num of nums) {
+                sum += num
+            }
+            return sum
+        }
+        const total = sum(1, 2, 3)
+        console.log(total)
+    </script>
+
+    <p id="">Random Password generator</p>
+    <script>
+        const len = 8
+        const upperCase = false
+        const lowerCase = false
+        const nums = true
+        const symb = true
+
+        const genPas = (length, upperCase, lowerCase, nums, symb) => {
+            const lowChar = "abcsdssjn"
+            const upperChar = "ASJJAKJ"
+            const numChar = "121211"
+            const symbChar = "%^$#@"
+            let allowChar = ""
+            let password = ""
+            allowChar += upperCase ? lowChar : ""
+            allowChar += lowerCase ? upperChar : ""
+            allowChar += nums ? numChar : ""
+            allowChar += symb ? symbChar : ""
+            for (let i = 0; i < length; i++) {
+                const randIdx = Math.floor(Math.random() * allowChar.length)
+                password += allowChar[randIdx]
+            }
+            return password;
+        }
+        const password = genPas(len, upperCase, lowerCase, nums, symb)
+        console.log(password)
+    </script>
+
+    <p id="">Callback Async</p>
+    <script>
+        //a function passed as an argument to another function when u are done call me next
+        const hello = (callback) => {
+            setTimeout(() => {
+                console.log('hello zidan')
+                callback()
+            }, 3000)
+        }
+        const bye = () => console.log('bye zidan')
+        hello(bye)
+        //we can make sure bye comes after hello although hello can take time
+        sumn(display, 1, 2)
+        function sumn(callback, x, y) {
+            let result = x + y
+            callback(result)
+        }
+        function display(result) {
+            console.log(result)
+        }
+    </script>
+
+    <p id="">ForEach</p>
+    <script>
+        //method used to iterate elements of array and apply callback to each elemnt
+        //array.foreach(callback) element, index, array provided
+        let nm = [1, 2, 4]
+        const double = (element, index, array) => {
+            array[index] = element * 2
+        }
+        nm.forEach(double)
+        nm.forEach((element) => console.log(element))
+
+        let frut = ['apple', 'banana']
+        const upper = (element, index, array) => {
+            array[index] = element.charAt(0).toUpperCase() + element.slice(1)
+        }
+        frut.forEach(upper)
+        frut.forEach((element) => console.log(element))
+    </script>
+
+    <p id="">Map()</p>
+    <script>
+        //accept a callback and applies that function to each element of array then return new array
+        const square = (element) => {
+            return Math.pow(element, 2)
+        }
+        const numb = [1, 2, 3]
+        const sqr = numb.map(square)
+        console.log(sqr)
+
+        const up = (element) => {
+            return element.toLocaleUpperCase()
+        }
+        const vege = ['potato', 'letuce']
+        const upc = vege.map(up)
+        console.log(upc)
+
+        const formatDate = (element) => {
+            const part = element.split("-") //create new array when finished
+            return `${part[2]}/${part[1]}/${part[0]}`
+        }
+        const dates = ["2020-2-10", "2012-12-12"]
+        const fdate = dates.map(formatDate)
+        console.log(fdate)
+    </script>
+
+    <p id="">Filter()</p>
+    <script>
+        const even = (element) => {
+            return element % 2 === 0
+        }
+        const odd = (element) => {
+            return element % 2 !== 0
+        }
+        let nms = [1, 2, 3, 4]
+        let evenNum = nms.filter(even)
+        let oddNum = nms.filter(odd)
+        console.log(evenNum, oddNum)
+
+        const short = (element) => {
+            return element.length < 6
+        }
+        const veg = ['letuce', 'potato', 'chili']
+        const shortWord = veg.filter(short)
+        console.log(shortWord)
+    </script>
+
+    <p>Reduce</p>
+    <script>
+        //reduce element of an array to a single value
+
+        const price = [5, 30, 10]
+        const totl = price.reduce(summ)
+        function summ(accumulator, element) { //accumaltor is sum of loop
+            return accumulator + element
+        }
+        const maxi = (accumulator, element) => { return Math.max(accumulator, element) }
+        const maxx = price.reduce(maxi)
+        console.log(maxx)
+        console.log(totl) // totl.toFixed(2) for cents
+    </script>
+
+    <p>Destructuring</p>
+    <script>
+        // extract value from array or object then assign to a varaible
+        // [] to perform array destructuring, {} to perform object destructuring
+        let a = 1;
+        let b = 2;
+        [a, b] = [b, a]
+        console.log(a, b)
+
+        const colr = ["red", "green", "blue"]
+        //[colr[0], colr[2]] = [colr[2], colr[0]] not working dkw
+        console.log(colr)
+        console.log(colr.sort())
+        const [first, second, third] = colr
+        console.log(second)
+
+        const p1 = {
+            name: "zodan"
+        }
+        const p2 = {
+            name: "polok",
+            age: 26
+        }
+
+        const { name, age = 0 } = p1 //if no age give default value
+        console.log(name)
+        console.log(age)
+
+        const displayPerson = ({ name, age }) => console.log(`${name} aged ${age}`)
+        displayPerson(p2)
+    </script>
+
+    <p>Array of Objects</p>
+    <script>
+        const vegt = [{ name: 'letuce', color: 'green', cal: 24 },
+        { name: 'tomato', color: 'red', cal: 30 },
+        { name: 'chili', color: 'green', cal: 10 }]
+
+        console.log(vegt[1].color)
+        vegt.push({ name: 'potato', color: 'brown', cal: 40 }) //add new vegetable
+        console.log(vegt)
+        vegt.pop()
+        console.log(vegt) // remove last item
+        //vegt.splice(1,2) //remove index item
+        console.log(vegt)
+
+        vegt.forEach(veg => console.log(veg.color))
+        const vname = vegt.map(veg => veg.name)
+        console.log(vname)
+        const greenv = vegt.filter(veg => veg.color === 'green')
+        console.log(greenv)
+        const maxV = vegt.reduce((max, veg) => veg.cal > max.cal ? veg : max)
+        console.log(maxV)
+        vegt.sort((a, b) => a.cal - b.cal)
+        console.log(vegt)
+        //veg.sort((a,b)=>a.name.localeCompare(b.name)) not working dkw
+        console.log(vegt)
+    </script>
+
+    <p>Sort String or Array</p>
+    <script>
+        let nmb = [1, 2, 7, 6, 3]
+        nmb.sort((a, b) => a - b)//check neg val too compare
+        console.log(nmb)
+    </script>
+
+    <p>Shufle Array FisherVatesAlgo</p>
+    <script>
+        const card = ['A', 2, 3, 4, 'Q', 'K']
+        //card.sort(()=>Math.random()-0.5)//inefficent
+        const shuffle = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
+                const randm = Math.floor(Math.random() * (i + 1))
+                //[array[i],array[randm]] = [array[randm], array[i]]
+            }
+        }
+        shuffle(card)
+        console.log(card)
+    </script>
+
+    <p>Date Object yy,mm,dd,hh,mm,ss,ms</p>
+    <script>
+        const date = new Date(2024, 0, 1, 2, 3, 4, 5)//"2024-12-12T12:00:00Z"
+        console.log(date)
+        const dt = new Date(1790000000000) //ms timer
+        console.log(dt)
+        const year = date.getFullYear()
+        const month = date.getMonth()
+        const day = date.getDate()
+        const hour = date.getHours()
+        const min = date.getMinutes()
+        const week = date.getDay()
+        console.log(year, month, day, hour, min, week)
+        date.setFullYear(2027)
+        date.setMonth(7)
+        console.log(date)
+        if (date > dt)
+            console.log('happy new year')
+    </script>
+
+    <p>Closure</p>
+    <script>
+        //A function defined inside another function, inner function has access to variables and scope of other function to allow pvt var and state maintain
+        const outer = () => { //everything part of outer is closure
+            let msg = 'hello'
+            const inner = () => {
+                console.log(msg)
+            }
+            inner()
+        }
+        outer()
+        msg = 'bye' //different scope no access so encapsulation
+
+        const closure = () => {
+            let count = 0
+            const increment = () => {
+                //let count = 0 // can fix it by putting it outside this func but unsecured
+                count++
+                console.log(count)
+            }
+            return { increment: increment } //object can add extra decrement
+        }
+        const counter = closure()
+        counter.increment()
+        counter.increment()  
+    </script>
+
+    <p>clearTimeout(timeoutId) setTimeout(callback,delay)ms</p>
+    <script>
+        const timeoutId = setTimeout(() => console.log('hello world'), 4000)
+        const clearTimer = () => {
+            clearTimeout(timeoutId) //used for stopwatch
+            console.log('cleared')
+        }
+        clearTimer()
+    </script>
+    <p>ES6 Module 2015 can be used in different js files</p>
+    <script type="module" src="es6module.js"></script>
+
+    <p>Asynchronus code</p>
+    <script>
+        //Executes line by line in a sequential manner, waits for completition
+        //setTimeout is Async allow multiple operation to be performed concurrently without waiting like io,fetch by callback,promise,async/await
+    </script>
+
+    <p id="result">Error Handling</p>
+
+    <label for="dividend">Enter Dividend</label>
+    <input type="number" id="dividend">
+    <br>
+    <label for="dividend">Enter Divisor</label>
+    <input type="number" id="divisor"><br>
+    <button type="submit" id="divide">Divide</button>
+    <script>
+        //an object that is created to represent a problem that occurs with user input or establidhing a connection
+        //console.lag('hi') type error console.log(x) uncaught reference
+        // try{} encloses code that potentially catch error, catch{} catch and handle any thrown error from try
+        //finally{} always executes, used for closing files,connection release resources
+        //it helps to keep the flow of the program dont interrupt it when error
+        try {
+            console.log(vx)
+        }
+        catch (error) {
+            console.log(error)
+        }
+        finally {
+            console.log('done')
+        }
+
+        try {
+            document.getElementById('divide').onclick =
+                () => {
+                    const dividend = document.getElementById('dividend').value
+                    const divisor = document.getElementById('divisor').value
+                    if (Number(divisor) == 0) {
+                        throw new Error('you cant divide by 0')
+                    }
+                    else { //isNaN(dividend) in case they dont type a number thorw new error
+                        const divide = dividend / divisor
+                        console.log(divide)
+                    }
+                }
+        }
+        catch (error) {
+            console.log(error)
+        }
+    </script>
+
+    <p>Callback hell</p>
+    <script>
+        //callbacks nested within other callbacks use promise, async await instead
+        const task1 = (callback) => {
+            setTimeout(() => {
+                console.log('task1 completed')
+                callback()
+            }, 3500)
+        }
+        const task2 = (callback) => {
+            setTimeout(() => {
+                console.log('task2 completed')
+                callback()
+            }, 1000)
+        }
+        const task3 = (callback) => {
+            setTimeout(() => {
+                console.log('task3 completed')
+                callback()
+            }, 500)
+        }
+        //callback hell
+        task1(() => {
+            task2(() => {
+                task3(() => console.log('all completed'))
+            })
+        })
+    </script>
+
+    <p>Promise</p>
+    <script>
+        //an object that return a value, pending -> resolved or rejected may fail
+        const walkDog = () => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    const dogWalk = true
+                    if (dogWalk)
+                        resolve('you walk the dog')
+                    else {
+                        reject('you didnt dog')
+                    }
+                }, 5500)
+            })
+        }
+        const cleanKitchen = () => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    const kitchen = true //if false error catched
+                    if (kitchen)
+                        resolve('you clean the kitchen')
+                    else {
+                        reject('you didnt kitchen')
+                    }
+                }, 1000)
+            })
+        }
+        const moveTrash = () => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('you remove the trash')
+                }, 500)
+            })
+        }
+
+        /*walkDog().then(value => {
+            console.log(value)
+            return cleanKitchen()
+        }).then(value => {
+            console.log(value)
+            return moveTrash()
+        }).then(value => {
+            console.log(value)
+        }).catch(error => console.log(error))*/
+
+        async function chores() { //wait for promise before contnue
+            try {
+                const walkDogR = await walkDog()
+                console.log(walkDogR)
+
+                const cleanKitchenR = await cleanKitchen()
+                console.log(cleanKitchenR)
+
+                const moveTrashR = await moveTrash()
+                console.log(moveTrashR)
+
+                console.log('you finished all chores')
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+
+        chores()
+    </script>
+    <p>Async Await</p>
+    <script>
+        //async makes a function to return a promise, await wait for a promise, async doesnt have reject resolve
+
+    </script>
+</body>
+
+</html>

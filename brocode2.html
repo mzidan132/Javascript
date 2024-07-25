@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .enabled {
+            color: blue
+        }
+
+        .disable {
+            color: red
+        }
+
+        .onoff {
+            color: green
+        }
+    </style>
+</head>
+
+<body>
+    <p>Object Oriented Javascript</p>
+    <script>
+        //collection of related properties like name, methods are function that belong to object
+        const person1 = {
+            name: 'zidan', //kv pairs
+            age: 24,
+            employed: false,
+            hello: () => console.log(`hi i am ${person1.name} and ${person1.age}`)
+        }
+        const person2 = {
+            name: 'pulok',
+            age: 25,
+            employed: true
+        }
+        person1.hello()
+        console.log(person2.name)
+    </script>
+
+    <p>this and constructor</p>
+    <script>
+        //reference to the obj where this key is used obj depend on context person.name=this.name
+        //constructor special method for defining properties and methods of object when a lot of object we can reduce code
+        const p1 = {
+            name: 'zidan',
+            age: 24,
+            hello: function () { console.log(`i am ${this.name}`) }//it does not always work with arrow function
+        }
+        p1.hello()
+
+        function car(model, color, y) {//reusable method to define the properties of obj 
+            this.model = model
+            this.color = color
+            this.year = y
+            this.drive = function () { console.log(`you drive ${this.model}`) }
+        } //like a function u dont need to write same process every time
+        const car1 = new car('ford', 'red', 2016) //car is a constructor
+        const car2 = new car('toyota', 'steel', 2012)
+        car2.drive()
+        console.log(car1, car2)
+    </script>
+
+    <p>Classes</p>
+    <script>
+        //more structured way to work with function than traditional constructor
+        class product {
+            constructor(name, price) {
+                this.name = name
+                this.price = price
+            }
+            display() {
+                console.log(`product is ${this.name}`)
+            }
+            calcTotl(tax) {
+                return this.price + (this.price * tax) //tax is func param not obj
+            }
+        }
+        const tax = 0.05
+        const p3 = new product('shirt', 99)
+        const p4 = new product('pant', 35)
+        p3.display()
+        p4.display()
+        const total = p3.calcTotl(tax)
+        console.log(total)
+    </script>
+
+    <p>Static</p>
+    <script>
+        //static defines props or methods belong to a class itself rather than object of the class, class owns anything static not object
+        class math {
+            static pi = 3.1416
+            static getDiameter(radius) {
+                return radius * 2
+            }
+            static getArea(radius) {
+                return this.pi * radius * radius
+            }
+        }
+        console.log(math.pi)
+        console.log(math.getDiameter(10))
+        console.log(math.getArea(10))
+
+        class user {
+            static count = 0
+            constructor(name) {
+                this.name = name
+                user.count++
+            }
+            hello() {
+                console.log(`hello my name is ${this.name}`)
+            }
+        }
+        const user1 = new user('zidan')
+        const user2 = new user('ashik')
+        console.log(user.count)
+        user1.hello()
+    </script>
+
+    <p>Inhertance</p>
+    <script>
+        //allow a new class to inherit props and methods from existing class parent to child for code reusability
+        class animal {
+            alive = true
+            eat() {
+                console.log(`${this.name} is eating`)
+            }
+            sleep() {
+                console.log(`${this.name}`)
+            }
+        }
+        class rabbit extends animal {
+            name = "rabbit";
+            run() {
+                console.log(`${this.name} is running`)
+            }
+        }
+        class hawk extends animal {
+            name = 'eagle'
+            fly() {
+                console.log(`${this.name} is flying`)
+            }
+        }
+        const rbt = new rabbit()
+        const hk = new hawk()
+        rbt.alive = false
+        console.log(rbt.alive)
+        rbt.eat()
+        hk.fly()
+    </script>
+
+    <p>Super</p>
+    <script>
+        //used in classes to call construstor or access property of parent superclass
+        class animals {
+            constructor(name) {
+                this.name = name
+            }
+            move(speed) {
+                console.log(`${this.name} move at a speed of ${speed} kph`)
+            }
+        }
+        class fish extends animals {
+            constructor(name, swimSpeed) {
+                super(name)
+                this.speed = swimSpeed
+            }
+            swim() {
+                super.move(this.speed)
+            }
+        }
+        class bird extends animals {
+            constructor(name, flySpeed) {
+                super(name)
+                //this.name=name
+                this.speed = flySpeed
+            }
+        }
+        const hilsa = new fish('hilsha', 20)
+        const budgie = new bird('budgieragar', 15)
+        console.log(budgie.name, budgie.speed)
+        hilsa.swim()
+    </script>
+
+    <p>getter and setter</p>
+    <script>
+        //special method to make property readable and writable to validate dont want garbage input
+        class rectangle {
+            constructor(width, height) {
+                this.width = width
+                this.height = height
+            }
+            set width(newWidht) {
+                if (newWidht > 0) {
+                    this._width = newWidht //private property
+                }
+                else {
+                    console.error('width must be postibe')
+                }
+            }
+            get width() {
+                return this._width
+            }
+        }
+        const box = new rectangle(3, 14)
+        box.width = 5
+        console.log(box.width)//undefined so getter comes to read
+    </script>
+    abstraction abstracts away hard functionality u dont need to know how area of rectangle works u just input value and
+    see result
+    <p>Nested Objects inside other object</p>
+    <script>
+        const fruit = {
+            name: 'apple',
+            cal: 20,
+            farm: ['eu', 'usa'],
+            props: {
+                color: 'red',
+                taste: 'good'
+            }
+        }
+        console.log(fruit.props.color, fruit.farm[1])
+        for (const property in fruit.props) {
+            console.log(fruit.props[property])
+        }
+        class persn {
+            constructor(name, ...adress) {
+                this.name = name
+                this.adress = new Address(...adress)
+            }
+        }
+        class Address {
+            constructor(street, city, country) {
+                this.street = street
+                this.city = city
+                this.country = country
+            }
+        }
+        const p5 = new persn('starmer', '29-downing', 'london', 'uk')
+        console.log(p5.adress, p5.name)
+    </script>
+
+    <p id="welcMsg">DOM document object model </p>
+    <script>
+        //represent the page that u see in web browser and provide api to interact, web construct dom tree by html tags so js can access it and change it dynamicaly
+        console.log(document)
+        document.body.style.backgroundColor = 'lightblue'
+        const usrnm = 'zidan'
+        const welcome = document.getElementById('welcMsg')
+        welcome.style.backgroundColor = 'yellow'
+        welcome.style.textAlign = 'center'
+        welcome.textContent += usrnm === "" ? 'guest' : usrnm
+    </script>
+
+    <p>Element Selectors getElementByClassNamep>
+    <div class="fruit">Apple</div>
+    <div class="fruit">Banana</div>
+    <div class="fruit">Mango</div>
+    <script>
+        //methods used to manipulate html element to select html element from dom
+        //id and document.querySelector for first element/null querySelectorAll() node list and getElementByClassName or TagName for html collection array
+        const fruits = document.getElementsByClassName('fruit')
+        console.log(fruits)
+        fruits[2].style.backgroundColor = 'red'
+        for (let fruit of fruits) { //enhanced for loop cant use foreach
+            fruit.style.textAlign = 'center'
+        }
+        //Typecast to array to use foreach
+        Array.from(fruits).forEach(fruit => {
+            fruit.style.color = 'yellow'
+        })
+    </script>
+    <P>getElementByTagName</P>
+    <h3>Vegetables</h3>
+    <ul>
+        <li>Beets</li>
+        <li>carrots</li>
+        <li>potato</li>
+    </ul>
+    <h3>Non root</h3>
+    <ul>
+        <li>Brocolis</li>
+        <li>chilii</li>
+        <li>cucumber</li>
+    </ul>
+    <script>
+        const h3elmns = document.getElementsByTagName('h3')
+        console.log(h3elmns)
+        h3elmns[1].style.backgroundColor = 'pink'
+        for (let h3elmn of h3elmns) {
+            h3elmn.style.color = 'brown'
+        }
+        const liElmns = document.getElementsByTagName('li')
+        for (let liElmn of liElmns) {
+            liElmn.style.backgroundColor = 'green'
+        }
+        Array.from(h3elmns).forEach((h3elmn) => h3elmn.textContent = 'hello')
+    </script>
+
+    <p>Query Selector select class or tag</p>
+    <script>
+        const element = document.querySelector('.fruit')
+        element.style.backgroundColor = 'green' //chooses first element
+        const veg = document.querySelector('h3')
+        veg.style.backgroundColor = 'aqua'
+    </script>
+    <p class="car">ford</p>
+    <p class="car">toyota</p>
+    <p class="car">bmw</p>
+    <script>
+        //node list doesnt update automaticaly in dom its like array they have foreach
+        const cars = document.querySelectorAll('.car')
+        cars[0].style.color = 'yellow'
+        const vegt = document.querySelectorAll('li')
+        vegt[1].style.color = 'red'
+
+        cars.forEach((car) => {
+            car.style.backgroundColor = 'grey'
+        })
+    </script>
+
+    <p>DOM Navigation thorugh structure of html document using Js</p>
+    <ol id="fruits">
+        <li id="apple">Apple</li>
+        <li id="banana">banana</li>
+        <li id="lichi">lichi</li>
+    </ol>
+    <ol id="desserts">
+        <li id="icecream">ice cream</li>
+        <li id="cake">cake</li>
+        <li id="faluda">faluda</li>
+    </ol>
+    <script>
+        //firstElementChild,nextElementSibling,parentElement,children
+        //fruit has 3 children which will change if ol changed by nextSibling
+        const elm = document.getElementById('desserts')//works for last element child work for last element only
+        const lastChild = elm.lastElementChild;
+        lastChild.style.backgroundColor = "red"
+        const ulElms = document.querySelectorAll('ol')
+
+        ulElms.forEach((ulElm) => {
+            const firstChild = ulElm.firstElementChild
+            firstChild.style.backgroundColor = 'aqua'
+        })
+
+        const el = document.getElementById('apple')
+        const nextSibling = el.nextElementSibling
+        nextSibling.style.backgroundColor = 'yellow'
+        const els = document.getElementById('faluda')
+        const prevSibling = els.previousElementSibling
+        prevSibling.style.backgroundColor = 'yellow'
+    </script>
+
+    <p>ParentElements</p>
+    <ol id="frut">
+        <li id="aple">Apple</li>
+        <li id="bnana">banana</li>
+        <li id="lici">lichi</li>
+    </ol>
+    <ol id="dessert">
+        <li id="cream">ice cream</li>
+        <li id="cakes">cake</li>
+        <li id="waffle">waffle</li>
+    </ol>
+    <script>
+        const elmt = document.getElementById('aple')
+        const parent = elmt.parentElement
+        parent.style.backgroundColor = 'green'
+        const prnt = document.getElementById('dessert')
+        const childs = prnt.children
+        Array.from(childs).forEach(child => {
+            child.style.backgroundColor = 'yellow'
+        })
+        childs[0].style.color = "red"
+
+        const newList = document.createElement('li')
+        const newList2 = document.createElement('li')
+        newList2.textContent = 'faluda'
+        newList.textContent = 'coconut'
+        newList.id = 'coconut'
+        newList.style.color = 'brown'
+        //document.body.append(newList)
+        document.getElementById('frut').append(newList) //or prepend
+
+        const lichi = document.getElementById('lici')
+        document.getElementById('frut').insertBefore(newList, lichi)
+
+        const liItem = document.querySelectorAll('#dessert li')
+        document.getElementById('dessert').insertBefore(newList2, liItem[0])
+        //document.getElementById('dessert').removeChild(newList2)
+    </script>
+
+    <p>Add Change elements</p>
+    <div id="box1" class="box" style="border: 2px solid black">
+        <p>box1</p>
+    </div>
+    <div id="box2" class="box" style="border:2px solid black">
+        <p>box2</p>
+    </div>
+    <div id="box3" class="box" style="border:2px solid black">
+        <p>box3</p>
+    </div>
+    <script>
+        const newH2 = document.createElement('h2')
+        const new2H2 = document.createElement('h2')
+        const new2H3 = document.createElement('h2')
+        new2H3.textContent = 'I love biriyani'
+        new2H2.textContent = 'i like pasta'
+        newH2.id = 'h2'
+        newH2.style.color = "tomato"
+        newH2.textContent = 'I like pizza'
+        //document.body.append(newH2)  prepend for adding at beginning
+        document.getElementById('box1').prepend(newH2)
+
+        const box2 = document.getElementById('box2')
+        document.body.insertBefore(new2H2, box2)//(newElement,currentElement)
+
+        const boxes = document.querySelectorAll('.box')
+        document.body.insertBefore(new2H3, boxes[2])
+
+        document.body.removeChild(new2H3)
+        //document.getElementById('box1').removeChild(newH2)
+    </script>
+
+    <p>Mouse Events</p>
+    <div id="myBox" style="border:2px solid red">
+        click me
+    </div>
+    <button id="myButton">button</button>
+    <script>
+        //Event Listener listens for specific events to create interactive web pages events: click, mouse over, mouse out, .addEventListener(event click,callback)
+        const myBox = document.getElementById('myBox') //adde
+        const myButton = document.getElementById('myButton')
+        /*const changeColor=(event)=>{
+            console.log(event)
+            event.target.style.backgroundColor='tomato'
+            event.target.textContent = 'Ouch'
+        }*/
+        myBox.addEventListener('click', event => event.target.style.backgroundColor = 'tomato')
+        myBox.addEventListener('mouseover', event => event.target.textContent = 'hello')
+        myBox.addEventListener('mouseout', event => event.target.textContent = 'click me')
+        myButton.addEventListener('click', event => myBox.target.textContent = 'you clicked button')//not working dkw 
+    </script>
+
+    <p>Keydown, Keyup</p>
+    <div id="myBx" style="border:2px solid green">
+        ClickKey
+    </div>
+    <script>
+        document.addEventListener('keydown', event => console.log(event.key))
+        const myBx = document.getElementById('myBx')
+        document.addEventListener('keydown', event => myBx.textContent = "you clicked keydown")
+        const moveAmount = 10
+        let x = 0, y = 0
+        document.addEventListener('keydown', event => {
+            if (event.key.startsWith('Arrow')) {
+                event.preventDefault()
+                switch (event.key) {
+                    case 'ArrowLeft':
+                        x -= moveAmount
+                        break
+                    case 'ArrowRight':
+                        x += moveAmount
+                        break
+                }
+                myBx.style.left = `${x}px`
+            }
+        })
+    </script>
+
+    <p id="mytxt">Show Hide</p>
+    <button id="hide">Hide</button>
+    <script>
+        const btn = document.getElementById('hide')
+        const mytxt = document.getElementById('mytxt')
+
+        btn.addEventListener('click', event => {
+            if (mytxt.style.visibility === 'hideen') {
+                mytxt.style.visibility = 'visible'
+                btn.textContent = 'hide'
+            } //display none and display block for pushing the button to take the space when it disappears
+            else {
+                mytxt.style.visibility = 'hidden'
+                btn.textContent = 'show'
+            }
+        })
+    </script>
+
+    <p>NodeList</p>
+    <button class="myBtn">Button 1</button>
+    <button class="myBtn">Button 2</button>
+    <button class="myBtn">Button 3</button>
+    <button class="myBtn">Button 4</button>
+    <script>
+        //static collection of html elements by id,class,elmnt by querySelectorAll can use forEach but not map,filter,reduce of array
+        let buttons = document.querySelectorAll('.myBtn')
+        //buttons.forEach(button=>button.style.backgroundColor='green')
+        buttons.forEach(button => {
+            button.addEventListener('click', event => {
+                //event.target.style.backgroundColor='tomato'
+                event.target.remove()
+                buttons = document.querySelectorAll('.myBtn')//cause it doesnt remove from dom and node list atst
+            })
+        })
+        const newBtn = document.createElement('button')
+        newBtn.textContent = 'Button 5'
+        newBtn.classList = 'myBtn'
+        document.body.appendChild(newBtn)
+    </script>
+
+    <p>ClassList</p>
+    <button id="cssbtn">Button</button>
+    <script>
+        //add, remove, toggle, replace(oldclass,newClass), contains class
+        const cssBtn = document.getElementById('cssbtn')
+        cssBtn.classList.add('enabled')
+        //cssBtn.classList.remove('enabled')
+        cssBtn.addEventListener('mouseover', event => event.target.classList.toggle('onoff'))
+        cssBtn.addEventListener('mouseout', event => event.target.classList.toggle('onoff'))
+
+        cssBtn.addEventListener('click', event => {
+            if (event.target.classList.contains('disabled'))
+                event.target.textContent = 'dont click again'
+            else {
+                event.target.classList.replace('enabled', 'disabled')
+            }
+        })
+    </script>
+</body>
+
+</html>
